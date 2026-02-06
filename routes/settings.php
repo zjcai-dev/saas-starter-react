@@ -28,4 +28,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('settings/two-factor', [TwoFactorAuthenticationController::class, 'show'])
         ->name('two-factor.show');
+
+    Route::get('settings/general', [\App\Http\Controllers\System\Settings\SystemSettingController::class, 'editGeneral'])
+        ->name('system.settings.general.edit');
+
+    Route::post('settings/general', [\App\Http\Controllers\System\Settings\SystemSettingController::class, 'updateGeneral'])
+        ->name('system.settings.general');
+
+    Route::get('settings/guest-register', [\App\Http\Controllers\System\Settings\SystemSettingController::class, 'editGuestRegistration'])
+        ->name('system.settings.guest-register.edit');
+
+    Route::post('settings/guest-register', [\App\Http\Controllers\System\Settings\SystemSettingController::class, 'updateGuestRegistration'])
+        ->name('system.settings.guest-register');
 });

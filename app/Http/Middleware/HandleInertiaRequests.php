@@ -37,7 +37,10 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
-            'name' => config('app.name'),
+            'name' => \App\Models\System\Setting::where('key', 'app_name')->value('value') ?? config('app.name'),
+            'logo' => \App\Models\System\Setting::where('key', 'app_logo')->value('value') 
+                ? \Illuminate\Support\Facades\Storage::url(\App\Models\System\Setting::where('key', 'app_logo')->value('value'))
+                : null,
             'auth' => [
                 'user' => $request->user(),
             ],

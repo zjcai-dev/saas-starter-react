@@ -6,6 +6,7 @@ import type { Auth } from './auth';
 
 export type SharedData = {
     name: string;
+    logo: string | null;
     auth: Auth;
     sidebarOpen: boolean;
     [key: string]: unknown;

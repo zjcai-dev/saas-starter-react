@@ -13,6 +13,11 @@ import type { NavItem } from '@/types';
 
 const sidebarNavItems: NavItem[] = [
     {
+        title: 'General',
+        href: '/settings/general',
+        icon: null,
+    },
+    {
         title: 'Profile',
         href: edit(),
         icon: null,
@@ -30,6 +35,11 @@ const sidebarNavItems: NavItem[] = [
     {
         title: 'Appearance',
         href: editAppearance(),
+        icon: null,
+    },
+    {
+        title: 'Guest Registration',
+        href: '/settings/guest-register',
         icon: null,
     },
 ];

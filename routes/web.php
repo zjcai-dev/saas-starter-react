@@ -39,12 +39,25 @@ Route::domain(env('APP_URL_BASE'))->group(function () {
 
     /*
     |--------------------------------------------------------------------------
+    | Guest Registration
+    |--------------------------------------------------------------------------
+    */
+    Route::get('guest-register', [\App\Http\Controllers\System\GuestRegisterController::class, 'index'])
+        ->middleware(['guest'])
+        ->name('guest-register.index');
+
+    Route::post('guest-register', [\App\Http\Controllers\System\GuestRegisterController::class, 'store'])
+        ->middleware(['guest', 'throttle:6,1'])
+        ->name('guest-register.store');
+
+    /*
+    |--------------------------------------------------------------------------
     | Dashboard
     |--------------------------------------------------------------------------
     */
-    Route::get('dashboard', function () {
-        return Inertia::render('system/dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('dashboard', [\App\Http\Controllers\System\DashboardController::class, 'index'])
+        ->middleware(['auth', 'verified'])
+        ->name('dashboard');
 
     /*
     |--------------------------------------------------------------------------
