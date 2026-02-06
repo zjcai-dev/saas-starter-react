@@ -43,6 +43,6 @@ Route::middleware('tenant')->group(function () {
 |----------------------------------------------------------------------
 | These routes are accessible from both central and tenant domains
 */
-Route::group(function () {
+Route::group([], function () {
     //
 });
