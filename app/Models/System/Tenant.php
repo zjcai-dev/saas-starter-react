@@ -10,4 +10,31 @@ use Stancl\Tenancy\Database\Concerns\HasDomains;
 class Tenant extends BaseTenant implements TenantWithDatabase
 {
     use HasDatabase, HasDomains;
+
+    public static function getCustomColumns(): array
+    {
+        return [
+            'id',
+            'plan_id',
+            'status',
+            'subscription_ends_at',
+            'trial_ends_at',
+            'is_active',
+        ];
+    }
+
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class);
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+    
+    public function currentSubscription()
+    {
+        return $this->hasOne(Subscription::class)->latestOfMany();
+    }
 }
