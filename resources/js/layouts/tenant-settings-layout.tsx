@@ -5,7 +5,7 @@ import {
 } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { Lock, User } from 'lucide-react';
-import TenantAppSidebarLayout from './tenant-app-sidebar-layout';
+import TenantAppSidebarLayout from '@/layouts/app/tenant-app-sidebar-layout';
 
 export default function TenantSettingsLayout({
     children,
