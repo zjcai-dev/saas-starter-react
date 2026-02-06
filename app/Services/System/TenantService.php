@@ -39,7 +39,9 @@ class TenantService
                 \App\Models\Tenant\User::create([
                     'name' => $data['owner_name'],
                     'email' => $data['owner_email'],
-                    'password' => Hash::make($data['owner_password']),
+                    // Importante: el modelo de usuario del tenant ya tiene cast 'password' => 'hashed',
+                    // así que aquí le pasamos la contraseña en texto plano para evitar doble hash.
+                    'password' => $data['owner_password'],
                 ]);
             });
 
