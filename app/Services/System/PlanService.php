@@ -7,9 +7,29 @@ use Illuminate\Support\Facades\DB;
 
 class PlanService
 {
-    public function listPlans()
+    public function listPlans(array $filters = [])
     {
-        return Plan::with('features')->orderBy('price')->get();
+        $query = Plan::query()->withCount('tenants');
+
+        // Search filter
+        if (!empty($filters['search'])) {
+            $query->where(function ($q) use ($filters) {
+                $q->where('name', 'like', '%' . $filters['search'] . '%')
+                  ->orWhere('description', 'like', '%' . $filters['search'] . '%');
+            });
+        }
+
+        // Status filter
+        if (isset($filters['is_active']) && $filters['is_active'] !== '') {
+            $query->where('is_active', (bool) $filters['is_active']);
+        }
+
+        // Type filter (free/paid)
+        if (isset($filters['is_free']) && $filters['is_free'] !== '') {
+            $query->where('is_free', (bool) $filters['is_free']);
+        }
+
+        return $query->orderBy('price')->paginate(10);
     }
 
     public function createPlan(array $data): Plan
@@ -59,4 +79,3 @@ class PlanService
         $plan->delete();
     }
 }
-

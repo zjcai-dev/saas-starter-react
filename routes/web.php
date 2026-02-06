@@ -48,6 +48,16 @@ Route::domain(env('APP_URL_BASE'))->group(function () {
 
     /*
     |--------------------------------------------------------------------------
+    | Plans Management
+    |--------------------------------------------------------------------------
+    */
+    Route::resource('plans', \App\Http\Controllers\System\PlanController::class)
+        ->middleware(['auth', 'verified'])
+        ->except(['show', 'create', 'edit']);
+
+
+    /*
+    |--------------------------------------------------------------------------
     | Authentication Routes
     |--------------------------------------------------------------------------
     |
