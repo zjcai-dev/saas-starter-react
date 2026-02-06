@@ -5,6 +5,7 @@ namespace App\Services\System;
 use App\Models\System\Tenant;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class TenantService
@@ -17,6 +18,8 @@ class TenantService
         
         // Nombre de BD: tenant_{name}
         $dbName = 'tenant_' . $tenantNameSlug; 
+
+        Log::info('Creating Tenant (Phase 1)', ['name' => $data['name'], 'db_name' => $dbName]);
 
         // 1. Create Tenant (Trigger creates DB)
         $tenant = Tenant::create([
@@ -31,6 +34,8 @@ class TenantService
             'tenancy_db_name' => $dbName, // Nombre de BD personalizado tenant_{name}
         ]);
 
+        Log::info('Tenant created successfully', ['tenant_id' => $tenant->id]);
+
         try {
             // 2. Create Domain - Store FULL domain (subdomain.app_base_url)
             // Example: react.saas-starter-react.test
@@ -41,8 +46,10 @@ class TenantService
                 'domain' => $fullDomain,
             ]);
 
+            Log::info('Domain created for tenant', ['tenant_id' => $tenant->id, 'domain' => $fullDomain]);
+
             // 3. Create Admin User in Tenant DB
-            $tenant->run(function () use ($data) {
+            $tenant->run(function () use ($data, $tenant) {
                 \App\Models\Tenant\User::create([
                     'name' => $data['owner_name'],
                     'email' => $data['owner_email'],
@@ -50,7 +57,10 @@ class TenantService
                     // así que aquí le pasamos la contraseña en texto plano para evitar doble hash.
                     'password' => $data['owner_password'],
                 ]);
+                Log::info('Tenant Admin User created', ['tenant_id' => $tenant->id, 'email' => $data['owner_email']]);
             });
+
+            Log::info('Tenant initialization complete', ['tenant_id' => $tenant->id]);
 
             return $tenant;
 
