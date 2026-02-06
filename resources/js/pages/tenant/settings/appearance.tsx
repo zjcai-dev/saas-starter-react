@@ -2,7 +2,7 @@ import { Head } from '@inertiajs/react';
 import AppearanceTabs from '@/components/appearance-tabs';
 import Heading from '@/components/heading';
 import TenantAppLayout from '@/layouts/tenant-app-layout';
-import TenantSettingsLayout from '@/layouts/tenant-settings-layout';
+import TenantSettingsLayout from '@/layouts/settings/tenant-layout';
 
 export default function Appearance() {
     return (

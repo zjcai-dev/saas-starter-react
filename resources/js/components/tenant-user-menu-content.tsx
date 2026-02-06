@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { UserInfo } from '@/components/user-info';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
-import { edit } from '@/routes/profile';
+import tenant from '@/routes/tenant';
 import type { User } from '@/types';
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
 };
 
 // Menú de usuario específico para el contexto TENANT.
-// Si mañana las rutas de ajustes del tenant cambian, solo se toca aquí.
+// Usa SIEMPRE rutas tenant para evitar llamadas al dominio central.
 export function TenantUserMenuContent({ user }: Props) {
     const cleanup = useMobileNavigation();
 
@@ -37,7 +37,7 @@ export function TenantUserMenuContent({ user }: Props) {
                 <DropdownMenuItem asChild>
                     <Link
                         className="block w-full cursor-pointer"
-                        href={edit()}
+                        href={tenant.settings.profile.edit()}
                         prefetch
                         onClick={cleanup}
                     >
@@ -50,7 +50,7 @@ export function TenantUserMenuContent({ user }: Props) {
             <DropdownMenuItem asChild>
                 <Link
                     className="block w-full cursor-pointer"
-                    href="/logout"
+                    href={tenant.logout()}
                     as="button"
                     method="post"
                     onClick={handleLogout}

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import TenantAppLayout from '@/layouts/tenant-app-layout';
-import TenantSettingsLayout from '@/layouts/tenant-settings-layout';
+import TenantSettingsLayout from '@/layouts/settings/tenant-layout';
 import { SharedData } from '@/types';
 
 export default function Profile({

@@ -5,31 +5,24 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { cn, toUrl } from '@/lib/utils';
-import { edit as editAppearance } from '@/routes/appearance';
-import { edit } from '@/routes/profile';
-import { show } from '@/routes/two-factor';
-import { edit as editPassword } from '@/routes/user-password';
+import tenant from '@/routes/tenant';
 import type { NavItem } from '@/types';
 
+// Rutas TENANT únicamente. No usar rutas central (profile, user-password, two-factor, appearance).
 const tenantSidebarNavItems: NavItem[] = [
     {
         title: 'Profile',
-        href: edit(),
+        href: tenant.settings.profile.edit(),
         icon: null,
     },
     {
         title: 'Password',
-        href: editPassword(),
-        icon: null,
-    },
-    {
-        title: 'Two-Factor Auth',
-        href: show(),
+        href: tenant.settings.password.edit(),
         icon: null,
     },
     {
         title: 'Appearance',
-        href: editAppearance(),
+        href: tenant.settings.appearance.edit(),
         icon: null,
     },
 ];

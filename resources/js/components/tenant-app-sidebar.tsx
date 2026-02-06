@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { Folder, LayoutGrid } from 'lucide-react';
 import { NavFooter } from '@/components/nav-footer';
 import { TenantNavMain } from '@/components/tenant-nav-main';
 import { TenantNavUser } from '@/components/tenant-nav-user';
@@ -12,13 +12,14 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import tenant from '@/routes/tenant';
 import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: tenant.dashboard(),
         icon: LayoutGrid,
     },
 ];
@@ -43,7 +44,7 @@ export function TenantAppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href="/dashboard" prefetch>
+                            <Link href={tenant.dashboard()} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
