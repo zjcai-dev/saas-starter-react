@@ -36,7 +36,7 @@ class SystemSettingController extends Controller
         );
 
         if ($request->hasFile('app_logo')) {
-            $path = $request->file('app_logo')->store('public/logos');
+            $path = $request->file('app_logo')->store('logos', 'public');
             // Storage::url() requires 'public/' to be stripped if using standard link, 
             // but let's store the full path relative to storage/app usually, 
             // or just the filename if we use a specific disk.
