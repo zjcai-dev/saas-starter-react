@@ -30,7 +30,8 @@ export default function Login({
             <Head title="Log in" />
 
             <Form
-                {...store.form()}
+                action={store.form().action}
+                method={store.form().method}
                 resetOnSuccess={['password']}
                 className="flex flex-col gap-6"
             >
@@ -97,15 +98,6 @@ export default function Login({
                                 Log in
                             </Button>
                         </div>
-
-                        {canRegister && (
-                            //<div className="text-center text-sm text-muted-foreground">
-                            //    Don't have an account?{' '}
-                            //    <TextLink href={register()} tabIndex={5}>
-                            //        Sign up
-                            //    </TextLink>
-                            //</div>
-                        )}
                     </>
                 )}
             </Form>
