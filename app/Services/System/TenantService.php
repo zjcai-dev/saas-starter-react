@@ -12,19 +12,21 @@ class TenantService
     public function createTenant(array $data)
     {
         return DB::transaction(function () use ($data) {
-            $ownerNameSlug = Str::slug($data['owner_name'], '_');
+            // Usamos el nombre del tenant para el slug de la base de datos
+            $tenantNameSlug = Str::slug($data['name'], '_');
             
-            // Generate DB name: tenant_ownername_random
-            $dbName = 'tenant_' . $ownerNameSlug; 
+            // Nombre de BD: tenant_{name}
+            $dbName = 'tenant_' . $tenantNameSlug; 
 
             // Create Tenant
             $tenant = Tenant::create([
-                'id' => Str::uuid(), // Stancl/Tenancy uses UUIDs by default
+                'id' => Str::uuid(), // ID del tenant (UUID) independiente del nombre de la BD
+                'name' => $data['name'],
                 'owner_name' => $data['owner_name'],
                 'owner_email' => $data['owner_email'],
                 'owner_password' => Hash::make($data['owner_password']),
                 'plan_id' => $data['plan_id'] ?? null,
-                'tenancy_db_name' => $dbName, // Custom DB Name
+                'tenancy_db_name' => $dbName, // Nombre de BD personalizado tenant_{name}
             ]);
 
             // Create Domain

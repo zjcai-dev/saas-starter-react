@@ -2,6 +2,8 @@
 
 namespace App\Models\System;
 
+use App\Models\System\Plan;
+use App\Models\System\Subscription;
 use Stancl\Tenancy\Database\Models\Tenant as BaseTenant;
 use Stancl\Tenancy\Contracts\TenantWithDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDatabase;
@@ -15,10 +17,10 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     {
         return [
             'id',
+            'name',
+            'tenancy_db_name',
             'plan_id',
             'owner_name',
-            'owner_owner_email', // Typo fix in next step if I see it, or clean it up now. Wait, I should maintain consistency.
-            // Actually, let's fix the variable name to just 'owner_email'
             'owner_email',
             'owner_password',
             'status',

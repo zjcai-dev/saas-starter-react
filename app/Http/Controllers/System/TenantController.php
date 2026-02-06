@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\System\StoreTenantRequest;
 use App\Services\System\TenantService;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Password;
 
 class TenantController extends Controller
 {
@@ -16,15 +15,9 @@ class TenantController extends Controller
         $this->tenantService = $tenantService;
     }
 
-    public function store(Request $request)
+    public function store(StoreTenantRequest $request)
     {
-        $validated = $request->validate([
-            'owner_name' => ['required', 'string', 'max:255'],
-            'owner_email' => ['required', 'string', 'email', 'max:255'],
-            'owner_password' => ['required', 'confirmed', Password::defaults()],
-            'domain' => ['required', 'string', 'max:255', 'unique:domains,domain'],
-            'plan_id' => ['nullable', 'exists:plans,id'],
-        ]);
+        $validated = $request->validated();
 
         $tenant = $this->tenantService->createTenant($validated);
 
