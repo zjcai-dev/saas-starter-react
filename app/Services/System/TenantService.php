@@ -46,4 +46,43 @@ class TenantService
             return $tenant;
         });
     }
+
+    /**
+     * Marca un tenant como cancelado y desactiva su acceso.
+     * El borrado definitivo se hará tras el período de gracia (30 días).
+     */
+    public function cancelTenant(Tenant $tenant): Tenant
+    {
+        $tenant->update([
+            'status' => 'Canceled',
+            'is_active' => false,
+            'canceled_at' => now(),
+        ]);
+
+        return $tenant;
+    }
+
+    /**
+     * Restaura un tenant cancelado dentro del período de gracia.
+     */
+    public function restoreTenant(Tenant $tenant): Tenant
+    {
+        // Si no está cancelado, no hacemos nada especial.
+        if ($tenant->status !== 'Canceled') {
+            return $tenant;
+        }
+
+        // Si ya pasó el período de gracia, no se debería poder restaurar.
+        if ($tenant->canceled_at && $tenant->canceled_at->lt(now()->subDays(30))) {
+            throw new \RuntimeException('El período de gracia de 30 días ha expirado para este tenant.');
+        }
+
+        $tenant->update([
+            'status' => 'Active',
+            'is_active' => true,
+            'canceled_at' => null,
+        ]);
+
+        return $tenant;
+    }
 }

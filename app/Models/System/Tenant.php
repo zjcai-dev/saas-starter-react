@@ -13,6 +13,12 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 {
     use HasDatabase, HasDomains;
 
+    protected $casts = [
+        'subscription_ends_at' => 'datetime',
+        'trial_ends_at' => 'datetime',
+        'canceled_at' => 'datetime',
+    ];
+
     public static function getCustomColumns(): array
     {
         return [
@@ -26,6 +32,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
             'status',
             'subscription_ends_at',
             'trial_ends_at',
+            'canceled_at',
             'is_active',
         ];
     }
