@@ -6,39 +6,29 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import AppLayout from '@/layouts/app-layout';
-import SettingsLayout from '@/layouts/settings/layout';
-import { edit, update } from '@/routes/user-password';
-import type { BreadcrumbItem } from '@/types';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Password settings',
-        href: edit().url,
-    },
-];
+import TenantAppLayout from '@/layouts/tenant-app-layout';
+import TenantSettingsLayout from '@/layouts/tenant-settings-layout';
 
 export default function Password() {
     const passwordInput = useRef<HTMLInputElement>(null);
     const currentPasswordInput = useRef<HTMLInputElement>(null);
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <TenantAppLayout breadcrumbs={[
+            { title: 'Password settings', href: '/settings/password' }
+        ]}>
             <Head title="Password settings" />
 
-            <h1 className="sr-only">Password Settings</h1>
-
-            <SettingsLayout>
+            <TenantSettingsLayout>
                 <div className="space-y-6">
                     <Heading
-                        variant="small"
                         title="Update password"
                         description="Ensure your account is using a long, random password to stay secure"
                     />
 
                     <Form
-                        action={update().url}
-                        method={update().method}
+                        action="/settings/password"
+                        method="put"
                         options={{
                             preserveScroll: true,
                         }}
@@ -142,7 +132,7 @@ export default function Password() {
                         )}
                     </Form>
                 </div>
-            </SettingsLayout>
-        </AppLayout>
+            </TenantSettingsLayout>
+        </TenantAppLayout>
     );
 }

@@ -23,7 +23,29 @@ Route::middleware([
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
-    Route::get('/', function () {
-        return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
+    // Guest Routes
+    Route::middleware('guest')->group(function () {
+        Route::get('login', [\App\Http\Controllers\Tenant\Auth\LoginController::class, 'create'])
+            ->name('tenant.login');
+
+        Route::post('login', [\App\Http\Controllers\Tenant\Auth\LoginController::class, 'store'])
+            ->name('tenant.login.store');
+    });
+
+    // Authenticated Routes
+    Route::middleware('auth')->group(function () {
+        Route::post('logout', [\App\Http\Controllers\Tenant\Auth\LoginController::class, 'destroy'])
+            ->name('tenant.logout');
+
+        Route::get('/dashboard', [\App\Http\Controllers\Tenant\DashboardController::class, 'index'])
+            ->name('tenant.dashboard');
+            
+        // Default redirect to dashboard
+        Route::get('/', function () {
+            return redirect()->route('tenant.dashboard');
+        });
+
+        // Load Tenant Settings Routes (Profile, Password, 2FA)
+        require __DIR__.'/tenant-settings.php';
     });
 });

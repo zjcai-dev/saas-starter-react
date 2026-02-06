@@ -1,35 +1,25 @@
 import { Head } from '@inertiajs/react';
 import AppearanceTabs from '@/components/appearance-tabs';
 import Heading from '@/components/heading';
-import AppLayout from '@/layouts/app-layout';
-import SettingsLayout from '@/layouts/settings/layout';
-import { edit as editAppearance } from '@/routes/appearance';
-import type { BreadcrumbItem } from '@/types';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Appearance settings',
-        href: editAppearance().url,
-    },
-];
+import TenantAppLayout from '@/layouts/tenant-app-layout';
+import TenantSettingsLayout from '@/layouts/tenant-settings-layout';
 
 export default function Appearance() {
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <TenantAppLayout breadcrumbs={[
+            { title: 'Appearance settings', href: '/settings/appearance' }
+        ]}>
             <Head title="Appearance settings" />
 
-            <h1 className="sr-only">Appearance Settings</h1>
-
-            <SettingsLayout>
+            <TenantSettingsLayout>
                 <div className="space-y-6">
                     <Heading
-                        variant="small"
                         title="Appearance settings"
                         description="Update your account's appearance settings"
                     />
                     <AppearanceTabs />
                 </div>
-            </SettingsLayout>
-        </AppLayout>
+            </TenantSettingsLayout>
+        </TenantAppLayout>
     );
 }

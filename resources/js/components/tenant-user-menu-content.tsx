@@ -8,7 +8,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { UserInfo } from '@/components/user-info';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
-import { logout } from '@/routes';
 import { edit } from '@/routes/profile';
 import type { User } from '@/types';
 
@@ -51,8 +50,9 @@ export function TenantUserMenuContent({ user }: Props) {
             <DropdownMenuItem asChild>
                 <Link
                     className="block w-full cursor-pointer"
-                    href={logout()}
+                    href="/logout"
                     as="button"
+                    method="post"
                     onClick={handleLogout}
                     data-test="tenant-logout-button"
                 >

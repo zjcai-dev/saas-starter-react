@@ -6,18 +6,9 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import AppLayout from '@/layouts/app-layout';
-import SettingsLayout from '@/layouts/settings/layout';
-import { edit, update } from '@/routes/profile';
-import { send } from '@/routes/verification';
-import type { BreadcrumbItem, SharedData } from '@/types';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Profile settings',
-        href: edit().url,
-    },
-];
+import TenantAppLayout from '@/layouts/tenant-app-layout';
+import TenantSettingsLayout from '@/layouts/tenant-settings-layout';
+import { SharedData } from '@/types';
 
 export default function Profile({
     mustVerifyEmail,
@@ -28,23 +19,40 @@ export default function Profile({
 }) {
     const { auth } = usePage<SharedData>().props;
 
+    // Using manual routes for now or I should rely on the generated routes.
+    // The previous steps updated routes/tenant-settings.php to use 'tenant.settings.profile.update'
+    // I need to import those routes. But since I am in a "write_to_file" I might not have the route helper updated yet.
+    // I will use static strings or route helper if available. 
+    // Ideally I should regenerate routes first. But I can't do that easily from here without running a command.
+    // I will assume route() helper works if I use the string names.
+    // But in the previous files, imports like `import { edit, update } from '@/routes/profile';` were used.
+    // These generated files might not exist for tenant settings yet.
+    // I will use direct `usePage().props` or similar if possible, or just standard form submission to URL.
+    // Actually, Ziggy/Wayfinder generates these files.
+    // Since I cannot run the generator right now, I will use the `route(...)` helper if available globally, OR use standard Inertia `useForm` / `router`.
+    // The previous examples used imported route helpers.
+    // I will try to use `route('tenant.settings.profile.update')` if I can access the global route function,
+    // OR just hardcode the URL for now: `/settings/profile`.
+    // Wait, the previous `routes/tenant-settings.php` defined:
+    // Route::patch('settings/profile', ...)->name('tenant.settings.profile.update');
+    // So the URL is `/settings/profile`.
+    
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <TenantAppLayout breadcrumbs={[
+            { title: 'Profile settings', href: '/settings/profile' }
+        ]}>
             <Head title="Profile settings" />
 
-            <h1 className="sr-only">Profile Settings</h1>
-
-            <SettingsLayout>
+            <TenantSettingsLayout>
                 <div className="space-y-6">
                     <Heading
-                        variant="small"
                         title="Profile information"
                         description="Update your name and email address"
                     />
 
                     <Form
-                        action={update().url}
-                        method={update().method}
+                        action="/settings/profile"
+                        method="patch"
                         options={{
                             preserveScroll: true,
                         }}
@@ -98,7 +106,8 @@ export default function Profile({
                                                 Your email address is
                                                 unverified.{' '}
                                                 <Link
-                                                    href={send()}
+                                                    href="/email/verification-notification"
+                                                    method="post"
                                                     as="button"
                                                     className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
                                                 >
@@ -144,7 +153,7 @@ export default function Profile({
                 </div>
 
                 <DeleteUser />
-            </SettingsLayout>
-        </AppLayout>
+            </TenantSettingsLayout>
+        </TenantAppLayout>
     );
 }
