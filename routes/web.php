@@ -55,7 +55,22 @@ Route::domain(env('APP_URL_BASE'))->group(function () {
         ->middleware(['auth', 'verified'])
         ->except(['show', 'create', 'edit']);
 
+    /*
+    |--------------------------------------------------------------------------
+    | Tenants Management
+    |--------------------------------------------------------------------------
+    */
+    Route::resource('tenants', \App\Http\Controllers\System\TenantController::class)
+        ->middleware(['auth', 'verified'])
+        ->except(['show', 'create', 'edit']);
 
+    Route::post('tenants/{tenant}/cancel', [\App\Http\Controllers\System\TenantController::class, 'cancel'])
+        ->middleware(['auth', 'verified'])
+        ->name('tenants.cancel');
+        
+    Route::post('tenants/{tenant}/restore', [\App\Http\Controllers\System\TenantController::class, 'restore'])
+        ->middleware(['auth', 'verified'])
+        ->name('tenants.restore');
     /*
     |--------------------------------------------------------------------------
     | Authentication Routes

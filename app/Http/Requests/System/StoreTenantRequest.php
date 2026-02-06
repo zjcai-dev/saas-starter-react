@@ -29,7 +29,8 @@ class StoreTenantRequest extends FormRequest
             'owner_email' => ['required', 'string', 'email', 'max:255'],
             'owner_password' => ['required', 'confirmed', Password::defaults()],
             'domain' => ['required', 'string', 'max:255', 'unique:domains,domain'],
-            'plan_id' => ['nullable', 'exists:plans,id'],
+            'plan_id' => ['required', 'exists:plans,id'],
+            'status' => ['nullable', 'string', 'in:Trial,Active'],
         ];
     }
 }
