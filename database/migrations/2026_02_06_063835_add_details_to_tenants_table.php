@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::table('tenants', function (Blueprint $table) {
             $table->foreignId('plan_id')->nullable()->constrained('plans');
+            $table->string('owner_name');
+            $table->string('owner_email');
+            $table->string('owner_password');
             $table->string('status')->default('Trial')->comment('Trial, Active, Suspended, Canceled');
             $table->timestamp('subscription_ends_at')->nullable();
             $table->timestamp('trial_ends_at')->nullable();
