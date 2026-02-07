@@ -25,11 +25,11 @@ const mainNavItems: NavItem[] = [
 ];
 
 const footerNavItems: NavItem[] = [
-    {
+    /*{
         title: 'Repository',
         href: 'https://git.jczap.net/templates/saas-starter-react',
         icon: Folder,
-    },
+    },*/
     /*{
         title: 'Documentation',
         href: 'https://laravel.com/docs/starter-kits#react',

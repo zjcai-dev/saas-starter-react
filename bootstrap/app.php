@@ -72,6 +72,14 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
+
+        $middleware->redirectGuestsTo(function (\Illuminate\Http\Request $request) {
+            if (function_exists('tenancy') && tenancy()->initialized) {
+                return route('tenant.login');
+            }
+
+            return route('login');
+        });
     })
     
     /*
