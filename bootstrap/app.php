@@ -19,16 +19,17 @@ return Application::configure(basePath: dirname(__DIR__))
     */
     ->withRouting(
         using: function () {
-            $centralDomains = config('tenancy.central_domains', []);
-
             /*
             |--------------------------------------------------------------
             | Central (Admin / Platform)
             |--------------------------------------------------------------
+            | Single domain from config so web.php is loaded once (avoids
+            | Wayfinder duplicate exports and RouteUri::parse array error).
             */
-            foreach ($centralDomains as $domain) {
+            $centralDomain = config('app.url_base');
+            if (is_string($centralDomain) && $centralDomain !== '') {
                 Route::middleware('web')
-                    ->domain($domain)
+                    ->domain($centralDomain)
                     ->group(base_path('routes/web.php'));
             }
 

@@ -30,8 +30,8 @@ use Laravel\Fortify\Http\Controllers\VerifyEmailController;
 |
 */
 
-Route::domain(env('APP_URL_BASE'))->group(function () {
-    
+// Domain is applied in bootstrap/app.php per central_domains; do not nest domain() here to avoid array merge with config:cache
+Route::group([], function () {
     // Root redirect
     Route::get('/', function () {
         return redirect()->route('login');
@@ -247,4 +247,4 @@ Route::domain(env('APP_URL_BASE'))->group(function () {
     |
     */
     require __DIR__.'/settings.php';
-});
+ });

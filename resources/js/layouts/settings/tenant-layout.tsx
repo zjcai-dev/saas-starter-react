@@ -25,6 +25,11 @@ const tenantSidebarNavItems: NavItem[] = [
         href: tenant.settings.appearance.edit(),
         icon: null,
     },
+    {
+        title: 'SMTP',
+        href: tenant.settings.smtp.edit(), 
+        icon: null,
+    },
 ];
 
 // Layout de ajustes específico para TENANT.

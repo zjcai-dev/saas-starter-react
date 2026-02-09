@@ -39,7 +39,7 @@ export default function Profile({
     
     return (
         <TenantAppLayout breadcrumbs={[
-            { title: 'Profile settings', href: '/settings/profile' }
+            { title: 'Profile settings', href: '/tenant/settings/profile' }
         ]}>
             <Head title="Profile settings" />
 
@@ -51,7 +51,7 @@ export default function Profile({
                     />
 
                     <Form
-                        action="/settings/profile"
+                        action="/tenant/settings/profile"
                         method="patch"
                         options={{
                             preserveScroll: true,

@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
+use App\Http\Controllers\Tenant\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,8 @@ Route::middleware([
         Route::get('/', function () {
             return redirect()->route('tenant.dashboard');
         });
+
+        Route::resource('users', UserController::class)->except(['create', 'edit', 'show']);
 
         // Load Tenant Settings Routes (Profile, Password, 2FA)
         require __DIR__.'/tenant-settings.php';

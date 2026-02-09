@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { Folder, LayoutGrid } from 'lucide-react';
+import { Folder, LayoutGrid, Users } from 'lucide-react';
 import { NavFooter } from '@/components/nav-footer';
 import { TenantNavMain } from '@/components/tenant-nav-main';
 import { TenantNavUser } from '@/components/tenant-nav-user';
@@ -13,6 +13,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import tenant from '@/routes/tenant';
+import users from '@/routes/users';
 import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
 
@@ -21,6 +22,11 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: tenant.dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Users',
+        href: users.index(),
+        icon: Users,
     },
 ];
 

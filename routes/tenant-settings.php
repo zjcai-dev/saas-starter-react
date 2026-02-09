@@ -1,29 +1,34 @@
 <?php
 
-use App\Http\Controllers\Tenant\Settings\PasswordController;
-use App\Http\Controllers\Tenant\Settings\ProfileController;
+use App\Http\Controllers\Tenant\Settings\TenantPasswordController;
+use App\Http\Controllers\Tenant\Settings\TenantProfileController;
+use App\Http\Controllers\Tenant\Settings\SmtpController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'tenant/settings/profile');
 
-    Route::get('settings/profile', [ProfileController::class, 'edit'])->name('tenant.settings.profile.edit');
-    Route::patch('settings/profile', [ProfileController::class, 'update'])->name('tenant.settings.profile.update');
+    Route::get('tenant/settings/profile', [TenantProfileController::class, 'edit'])->name('tenant.settings.profile.edit');
+    Route::patch('tenant/settings/profile', [TenantProfileController::class, 'update'])->name('tenant.settings.profile.update');
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::delete('settings/profile', [ProfileController::class, 'destroy'])->name('tenant.settings.profile.destroy');
+    Route::delete('tenant/settings/profile', [TenantProfileController::class, 'destroy'])->name('tenant.settings.profile.destroy');
 
-    Route::get('settings/password', [PasswordController::class, 'edit'])->name('tenant.settings.password.edit');
+    Route::get('tenant/settings/password', [TenantPasswordController::class, 'edit'])->name('tenant.settings.password.edit');
 
-    Route::put('settings/password', [PasswordController::class, 'update'])
+    Route::put('tenant/settings/password', [TenantPasswordController::class, 'update'])
         ->middleware('throttle:6,1')
         ->name('tenant.settings.password.update');
 
-    Route::get('settings/appearance', function () {
+    Route::get('tenant/settings/appearance', function () {
         return Inertia::render('tenant/settings/appearance');
     })->name('tenant.settings.appearance.edit');
+
+    Route::get('tenant/settings/smtp', [SmtpController::class, 'edit'])->name('tenant.settings.smtp.edit');
+    Route::post('tenant/settings/smtp', [SmtpController::class, 'update'])->name('tenant.settings.smtp.update');
+    Route::post('tenant/settings/smtp/test', [SmtpController::class, 'test'])->name('tenant.settings.smtp.test');
 
     // Two Factor Auth for Tenants? Maybe later. Commenting out for now or keeping if we want to support it.
     // The previous file had it, let's keep it but ideally we need Tenant\Settings\TwoFactorController

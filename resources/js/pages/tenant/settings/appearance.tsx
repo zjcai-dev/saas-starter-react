@@ -7,7 +7,7 @@ import TenantSettingsLayout from '@/layouts/settings/tenant-layout';
 export default function Appearance() {
     return (
         <TenantAppLayout breadcrumbs={[
-            { title: 'Appearance settings', href: '/settings/appearance' }
+            { title: 'Appearance settings', href: '/tenant/settings/appearance' }
         ]}>
             <Head title="Appearance settings" />
 
