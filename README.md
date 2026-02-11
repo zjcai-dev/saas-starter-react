@@ -39,7 +39,7 @@ Sigue estos pasos para levantar el proyecto en tu entorno local:
 
 1.  **Clonar el repositorio**:
     ```bash
-    git clone https://git.jczap.net/templates/saas-starter-react.git
+    git clone https://github.com/zjcai-dev/saas-starter-react.git
     cd saas-starter-react
     ```
 
@@ -102,4 +102,4 @@ El sitio estará disponible en la URL configurada (por defecto `http://saas-star
 -   `/database`: Migraciones y Seeders.
 
 ---
-Creado por [zjcai](https://git.jczap.net/zjcai).
+Creado por [zjcai](https://git.jczap.net/zjcai.dev).
